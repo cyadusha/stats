@@ -1,0 +1,82 @@
+---
+title: stats
+author: "Yadu"
+date: "July 25, 2015"
+output: html_document
+---
+First, we need to load the required packages, which are ggplot2 and datasets:
+```{r}
+library(ggplot2)
+library(datasets)
+```
+
+Next, we do frequency histograms for four of the numerical quantities which are mean ozone, solar radiation, average wind speed, and maximum daily temperature:
+```{r qplot, fig.width=4, fig.height=3}
+#This histogram is skewed to the right.
+qplot(Ozone, ylab = "number of observations", data = airquality, binwidth = 10) 
+#This histogram is skewed to the left. 
+qplot(Solar.R, ylab = "number of observations", data = airquality, binwidth = 10)
+#There are more observations that have a lower wind speed.
+qplot(Wind, ylab = "number of observations", data = airquality, binwidth = 10)
+#This histogram is skewed to the left. 
+qplot(Temp, ylab = "number of observations", data = airquality,
+      binwidth = 10)
+
+```
+
+Next, we obtain the box and whisker plots for solar radiation and maximum daily temperature:
+```{r boxplot, fig.width=4, fig.height=3}
+#The mean is at 185.9 Langleys.
+boxplot(airquality$`Solar.R`)
+#The mean is at 77.88 degrees F
+boxplot(airquality$`Temp`)
+```
+
+The summary for the data is as follows:
+```{r}
+summary(airquality)
+```
+
+We also obtain the linear correlation coefficient between temperature and solar radiation as well as between average wind speed and maximum daily temperature: 
+```{r}
+#There is absolutely no correlation. 
+cor(airquality$`Temp`, airquality$`Solar.R`)
+
+#There is absolutely no correlation.
+cor(airquality$`Wind`, airquality$`Ozone`)
+```
+
+Finally, we obtain a scatterplot for solar radiation and maximum temperature with a line of best fit:
+```{r ggplot, fig.width=4, fig.height=3}
+ggplot(data = airquality, aes(x = Solar.R, y = Temp)) + 
+geom_point(shape = 1) + 
+geom_smooth(method = lm)
+```
+
+Scatterplot for mean ozone and average windspeed with a line of best fit:
+```{r}
+ggplot(data = airquality, aes(x = Ozone, y = Wind)) + 
+geom_point(shape = 1) + 
+geom_smooth(method = lm)
+```
+
+Scatterplot for solar radiation and maximum temperature with a Loess curve of best fit: 
+```{r}
+ggplot(data = airquality, aes(x = Solar.R, y = Temp)) + 
+geom_point(shape = 1) + 
+geom_smooth()
+```
+
+Scatterplot for mean ozone and average windspeed with a Loess curve of best fit:
+```{r}
+ggplot(data = airquality, aes(x = Ozone, y = Wind)) + 
+geom_point(shape = 1) + 
+geom_smooth()
+
+
+#http://rpubs.com/catlin/DPBWeek6
+#http://www.cookbook-r.com/Graphs/Scatterplots_(ggplot2)/
+
+```
+
+
